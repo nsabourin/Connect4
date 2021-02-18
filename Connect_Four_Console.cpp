@@ -86,7 +86,7 @@ int main() {
 			system("CLS");
 			affichageMegaUltime();
 		}
-	} while (victoire);
+	} while (!victoire);
 	system("CLS");
 
 	//5. Un coup sorti de la boucle, on peut traiter l'egalite
@@ -97,7 +97,7 @@ int main() {
 	}
 
 	//6. Traiter la victoire
-	std::string message = (joueur == 15) ? "Victoire eclatante du joueur 1!" : "Victoire epoustouflante du joueur 2!";
+	std::string message = (joueur == 15) ? "Victoire eclatante du joueur 2!" : "Victoire epoustouflante du joueur 1!";
 	std::cout << message << std::endl;
 
 	std::cin.ignore();
@@ -162,7 +162,7 @@ Entree	: n0 de rangee (entier) & position de drop (entier)
 Sortie	: Gagne ou pas (booleen)
 Role	: Verifier s'il y a victoire
 */
-bool verificationMegaUltime(int r, int d) {
+bool verificationMegaUltime(int d, int r) {
 	
 	//Initialisation des variables
 	char joueur = tableau[r][d];
@@ -239,5 +239,6 @@ bool verificationMegaUltime(int r, int d) {
 
 	//Condition de victoiree (connect four)
 	if (diag2 >= 4) { return true; }
+	return false;
 }
 
