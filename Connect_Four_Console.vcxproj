@@ -140,6 +140,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Connect_Four_Console.cpp" />
+    <ClCompile Include="GameMech.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameMech.h" />
+    <ClInclude Include="InterfaceConsole.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
