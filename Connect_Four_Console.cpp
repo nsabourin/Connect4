@@ -25,7 +25,6 @@ int main() {
 		int choix_rangee = 0;
 		bool victoire = false;
 
-
 		//4. Actions
 		do {
 			//4.1 Si erreur dans le dernier tour
@@ -53,7 +52,7 @@ int main() {
 				/****************Pas de break ici*******************************/
 				if (std::cin.fail()) {
 					std::cin.clear();	//.clear empeche de loop en essayant de tjrs faire cin->variable
-					char c;
+					std::string c;
 					std::cin >> c;
 					std::cin.ignore();
 				}
