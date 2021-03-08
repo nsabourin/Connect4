@@ -1,14 +1,11 @@
-
 #ifndef GAMEMECH_H_EXISTS
 #define GAMEMECH_H_EXISTS
 
-class GameMech
-{
+class GameMech {
 public:
 	GameMech(int, int);
 	~GameMech();
 	char getValueAt(int ligne, int colonne);
-	
 
 	int getTokens();
 	int getTurn();
@@ -25,14 +22,8 @@ private:
 	int	tokens ;
 	bool victoire;
 	int turn;
-	char JOUEUR1 = 254;
-	char JOUEUR2 = 15;
+	char JOUEUR1 = 254;	//Carre (token joueur1)
+	char JOUEUR2 = 6;	//Carre (token joueur2)
 	char EMPTY = ' ';
-
 };
-
 #endif
-
-
-
-

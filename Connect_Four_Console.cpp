@@ -1,7 +1,7 @@
 /*		Connect Four
 Type		: Application console
 Equipe		: P1
-Langage		: C
+Langage		: C++
 Creation	: 2021/02/14
 */
 
@@ -9,16 +9,17 @@ Creation	: 2021/02/14
 #include "InterfaceConsole.h"
 #include "GameMech.h"
 
-
 int main() {
 
+	//0. Boucle rejouer
 	bool recommencer = true;
 	while (recommencer) {
+		
+		//1. Creation objets necessaires
 		interfaceConsole interface;
 		GameMech connectF(6, 7);
 
-		//2. Afficher tableau vide 
-
+		//2. Afficher tableau vide & def variables
 		interface.affichageMegaUltime(connectF);
 		int	drop = 0;
 		int choix_rangee = 0;
@@ -50,6 +51,12 @@ int main() {
 
 				//4.2.3 Traiter la possibilite de mauvaise entree avec cin.fail()
 				/****************Pas de break ici*******************************/
+				if (std::cin.fail()) {
+					std::cin.clear();	//.clear empeche de loop en essayant de tjrs faire cin->variable
+					char c;
+					std::cin >> c;
+					std::cin.ignore();
+				}
 			}
 
 			//4.3 Traiter l'egalite (break encore)
@@ -86,13 +93,11 @@ int main() {
 
 		//7. Recommencer si le joueur le veut
 		int reponse;
-		std::cout << "Voulez-vous recommencer? Oui-1	Non-2" << std::endl;
+		std::cout << "Voulez-vous recommencer? Oui-1	Non-Autre" << std::endl;
 		std::cin >> reponse;
 		if (reponse == 1) { system("CLS"); }
-		else if (reponse == 2) { recommencer = false; }
 		else { recommencer = false; }
 	}
 	std::cin.ignore();
-
 	return 0;
 }

@@ -1,16 +1,13 @@
-
 #include <iostream>
 #include "GameMech.h"
 
-class interfaceConsole
-{
+class interfaceConsole {
 public:
-	void affichageMegaUltime( GameMech& game)
-	{
+	void affichageMegaUltime(GameMech& game) {
 		//Print les indices
 		std::cout << " 1   2   3   4   5   6   7\n";
 
-		//Bboucle le tableau (j, k et l sont les colonnes)
+		//Boucle le tableau (j, k et l sont les colonnes)
 		for (int i = 0; i < game.getMaxLigne(); i++) {
 			for (int j = 0; j < game.getMaxColonne(); j++) {
 				std::cout << char(218) << char(196) << char(191) << " ";
@@ -28,6 +25,4 @@ public:
 			std::cout << std::endl;
 		}
 	}
-
-
 };

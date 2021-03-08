@@ -1,7 +1,7 @@
 #include "GameMech.h"
 
-GameMech::GameMech(int p_ligne_max, int p_colonne_max)
-{
+//Constructeur
+GameMech::GameMech(int p_ligne_max, int p_colonne_max) {
 
 	tokens = 0;
 	victoire = false;
@@ -17,13 +17,17 @@ GameMech::GameMech(int p_ligne_max, int p_colonne_max)
 	}
 }
 
-char GameMech::getValueAt(int ligne, int colonne)
-{
+/*		  **getValueAt**
+Entree	: nb de lignes (entier) & nb de colonnes (char)
+Sortie	: Position drop (entier)
+Role	: Retourner le tableau avec le bon nb de lignes et colonnes
+*/
+char GameMech::getValueAt(int ligne, int colonne) {
 	return tableau[ligne][colonne];
 }
 
 /*		  **jouerTour**
-Entree	: n0 de rangee (entier) & joueur (char)
+Entree	: n0 de rangee (entier)
 Sortie	: Position drop (entier)
 Role	: Calculer le tour joue
 */
@@ -137,25 +141,19 @@ bool GameMech::verificationMegaUltime(int d, int r) {
 	return false;
 }
 
-int GameMech::getTokens()
-{
+int GameMech::getTokens() {
 	return tokens;
 }
-int GameMech::getTurn()
-{
+int GameMech::getTurn() {
 	return turn;
 }
 
-int GameMech::getMaxLigne()
-{
+int GameMech::getMaxLigne() {
 	return max_ligne;
 }
-int GameMech::getMaxColonne()
-{
+int GameMech::getMaxColonne() {
 	return max_colonne;
 }
 
-GameMech::~GameMech()
-{
-
-}
+//Destructeur
+GameMech::~GameMech() {}
