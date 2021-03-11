@@ -31,10 +31,16 @@ int main() {
 			if (drop != -1) {
 
 				//4.1.1 Si j2 a joue, c'est le tour de j1
-				if ((connectF.getTurn() % 2) == 0) { std::cout << "Joueur 1, indiquer la position voulue : "; }
+				if ((connectF.getTurn() % 2) == 0) { 
+					std::cout << "Joueur 1, indiquer la position voulue : ";
+					system("Color 09");
+				}
 
 				//4.1.2 L'inverse
-				else { std::cout << "Joueur 2, indiquer la position voulue : "; }
+				else { 
+					std::cout << "Joueur 2, indiquer la position voulue : "; 
+					system("Color 0E");
+				}
 			}
 
 			//4.2 Boucle true
@@ -77,7 +83,7 @@ int main() {
 			}
 
 		} while (!victoire);
-		system("CLS");
+		
 
 		//5. Un coup sorti de la boucle, on peut traiter l'egalite
 		if (connectF.getTokens() == 42) {
@@ -85,9 +91,9 @@ int main() {
 			std::cin.ignore();
 			return 0;
 		}
-
+		system("Color 0A");
 		//6. Traiter la victoire
-		std::string message = (connectF.getTurn() % 2) ? "Victoire eclatante du joueur 1!" : "Victoire epoustouflante du joueur 2!";
+		std::string message = (connectF.getTurn() % 2) ? "\n\nVictoire eclatante du joueur 1!" : "Victoire epoustouflante du joueur 2!\n";
 		std::cout << message << std::endl;
 
 		//7. Recommencer si le joueur le veut
