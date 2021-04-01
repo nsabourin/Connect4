@@ -29,5 +29,13 @@
     <ClInclude Include="GameMech.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Downloads\can_b2_console\can_b2_console\sources\CommunicationFPGA.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\Downloads\can_b2_console\can_b2_console\sources\VSC2017\CommunicationFPGA.lib">
+      <Filter>Fichiers sources</Filter>
+    </Library>
   </ItemGroup>
 </Project>
