@@ -30,7 +30,7 @@ unsigned const int nreg_ecri_led = 10; // PC -> fpga (donnees leds)
 
 int main() {
 
-	/*
+	
 
 	//**************************************  FPGA  *******************************************
 	BOOL statut_port = false;	//Statut du port de comm
@@ -46,6 +46,7 @@ int main() {
 		std::cout << "Statut initial du port de communication : " << port.estOk() << std::endl << std::endl;
 	}
 
+	/*
 	//::::::::::Exemples pour utiliser le port de comm::::::::::
 
 	//Lire registre de l'interface
@@ -81,8 +82,10 @@ int main() {
 	while (recommencer) {
 
 		int choixJeu;
-		int curseur = 7;
+		int curseur = 4;
+		int valBouton = 0;
 		char direction;
+		
 		std::cout << "Jouer 1 vs 1 - 1\nJouer avec l'ordinateur		- 2" << std::endl;
 		std::cin >> choixJeu;
 		system("cls");
@@ -126,7 +129,7 @@ int main() {
 					//4.2.1 Arret de la boucle si egalite
 					if (connectF.getTokens() == 42) { break; }
 
-					/* 
+					/* SANS CURSEUR
 					std::cin >> choix_rangee;
 					choix_rangee--;//Ajuster pour indice 1 = 0 dans les tableaux
 					
@@ -134,20 +137,33 @@ int main() {
 					if (choix_rangee <= 6 && choix_rangee >= 0) { break; }
 					else { std::cout << std::endl << "Entrer un indice entre 1 et 7 : "; }
 					*/
-
-					std::cin >> direction;
-					if (direction == 'a' && curseur - 1 > 0) { curseur--; }
-					else if (direction == 'd' && curseur + 1 < 8) { curseur++; }
-					else if (direction == 's') {
+		
+					port.lireRegistre(nreg_lect_stat_btn, valBouton);//std::cin >> direction;
+					if (valBouton == 8 && curseur - 1 > 0) {	//direction == 'a' ...
+						curseur--; 
+						system("cls");
+						interface_de_console.affichageMegaUltime(connectF, curseur);
+					}
+					else if (valBouton == 2 && curseur + 1 < 8) { //direction == 'd' ...
+						curseur++; 
+						system("cls");
+						interface_de_console.affichageMegaUltime(connectF, curseur);
+					}
+					else if (valBouton == 4) {	//direction == 's' ...
 						choix_rangee = curseur-1;
+						
 						break;
 					}
-					system("cls");
-					interface_de_console.affichageMegaUltime(connectF, curseur);
+					
+					while (valBouton == 8 || valBouton == 4 || valBouton == 2) {
+						port.lireRegistre(nreg_lect_stat_btn, valBouton);
+					}
+					
+					
 
 					//4.2.3 Traiter la possibilite de mauvaise entree avec cin.fail()
 					/****************Pas de break ici*******************************/
-					/*
+					/*SANS CURSEUR
 					if (std::cin.fail()) {
 						std::cin.clear();	//.clear empeche de loop en essayant de tjrs faire cin->variable
 						std::string c;
@@ -251,6 +267,8 @@ int main() {
 					*/
 
 					if (!tour_ai) {
+
+						/*
 						std::cin >> direction;
 						if (direction == 'a' && curseur - 1 > 0) { curseur--; }
 						else if (direction == 'd' && curseur + 1 < 8) { curseur++; }
@@ -260,6 +278,27 @@ int main() {
 						}
 						system("cls");
 						interface_de_console.affichageMegaUltime(connectF, curseur);
+						*/
+						port.lireRegistre(nreg_lect_stat_btn, valBouton);//std::cin >> direction;
+						if (valBouton == 8 && curseur - 1 > 0) {	//direction == 'a' ...
+							curseur--;
+							system("cls");
+							interface_de_console.affichageMegaUltime(connectF, curseur);
+						}
+						else if (valBouton == 2 && curseur + 1 < 8) { //direction == 'd' ...
+							curseur++;
+							system("cls");
+							interface_de_console.affichageMegaUltime(connectF, curseur);
+						}
+						else if (valBouton == 4) {	//direction == 's' ...
+							choix_rangee = curseur - 1;
+
+							break;
+						}
+
+						while (valBouton == 8 || valBouton == 4 || valBouton == 2) {
+							port.lireRegistre(nreg_lect_stat_btn, valBouton);
+						}
 					}
 					else if (tour_ai) {
 						choix_rangee = rand() % 7 + 1;
