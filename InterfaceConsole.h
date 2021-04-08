@@ -3,9 +3,21 @@
 
 class interfaceConsole {
 public:
-	void affichageMegaUltime(GameMech& game) {
+	void affichageMegaUltime(GameMech& game, int curseur) {
+		//Afficher curseur
+		std::cout << " ";
+		for (int i = 0; i < 7; i++) {
+			
+			if (i == curseur-1) {
+				std::cout << "|   ";
+			}
+			else {
+				std::cout << "    ";
+			}
+		}
+		
 		//Print les indices
-		std::cout << " 1   2   3   4   5   6   7\n";
+		std::cout <<std::endl<< " 1   2   3   4   5   6   7\n";
 
 		//Boucle le tableau (j, k et l sont les colonnes)
 		for (int i = 0; i < game.getMaxLigne(); i++) {
