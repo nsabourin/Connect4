@@ -69,7 +69,7 @@ int main() {
 	}
 
 	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
+	AUDIT 3 TEST AVEC POTENTIOMETRES ET VALEUR SUR AFFICHAGE FPGA
 	testFPGA(port);
 
 	system("pause");
