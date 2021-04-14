@@ -8,7 +8,7 @@ Menu::Menu(QWidget* parent) : QMainWindow(parent)
 	setAutoFillBackground(true);
 	setBackGround();
 
-
+	
 }
 
 void Menu::setBackGround()
@@ -48,7 +48,7 @@ void menuPrincipal::setupMenu()
 
 void menuPrincipal::clicAmi()
 {
-
+	
 }
 void menuPrincipal::clicAI()
 {

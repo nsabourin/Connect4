@@ -6,20 +6,21 @@
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include "tableau.h"
 
-class Menu : public QMainWindow {
+class Menu : public QMainWindow
+{
 	Q_OBJECT
 
 public:
-	explicit Menu(QWidget* parent = nullptr);
+	explicit Menu(QWidget *parent = nullptr);
 
 private:
 	QGraphicsScene* backGround;
 	void setBackGround();
 };
 
-class menuPrincipal : public QWidget {
+class menuPrincipal : public QWidget
+{
 	Q_OBJECT
 
 public:
