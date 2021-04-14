@@ -20,6 +20,7 @@ Alexis Dupont, Maxime Grenier-Castillo, Nicolas Sabourin, Michael Kabraelian
 #include "menu.h"
 #include "deplacement.h"
 #include "jouerToken.h"
+#include "tableau.h"
 
 int main(int argc, char* argv[]) {
 	QApplication appli(argc, argv);

@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include "tableau.h"
 
 class Menu : public QMainWindow
 {
