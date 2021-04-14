@@ -13,7 +13,7 @@ public:
     Tableau();
     Tableau(Tableau&);
     ~Tableau();
-
+    explicit Tableau(QWidget* parent = nullptr);
     int verifVictoire(); //Valeurs de retour( 1 : j1, 2 : j2, 0 : Partie nulle)
     int deplacer(int, int);
     void affichageMegaUltime();
@@ -32,5 +32,6 @@ public:
 private:
     int** tableau;
     int tokenDeSuite; //Le but de la victoire est de se rendre a 4
+    void createTableau();
 };
 #endif // BOARD_H
