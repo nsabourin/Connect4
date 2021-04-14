@@ -1,6 +1,7 @@
 #ifndef TABLEAU_H
 #define TABLEAU_H
 
+class Tableau {
 #include <vector>
 #include "deplacement.h"
 #include <QMainWindow>
