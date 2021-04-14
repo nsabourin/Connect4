@@ -104,9 +104,4 @@
       <Filter>Generated Files</Filter>
     </CustomBuild>
   </ItemGroup>
-  <ItemGroup>
-    <Library Include="CommunicationFPGA.lib">
-      <Filter>Source Files</Filter>
-    </Library>
-  </ItemGroup>
 </Project>
