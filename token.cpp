@@ -1,11 +1,11 @@
 #include "token.h"
 
-Token::Token(QWidget* parent, int a, int c, Infos* info) :index(0), tour(0), positionY(5), jeu(a), dep(c), daddy(parent), totalMoves(1), info(info) {
+/*Token::Token(QWidget* parent, int a, int c, Infos* info) :index(0), tour(0), positionY(5), jeu(a), dep(c), daddy(parent), totalMoves(1), info(info) {
 
     setPixmap(QPixmap(":/../twisTea.png"));
     setPos(135, 6.5);
 
-    tableau = new Tableau;
+    //tableau = new Tableau();
 
     if (jeu == 1) {
         info->setEtiquette1("Tour du Joueur 1");
@@ -150,7 +150,7 @@ void Token::actionClavier(QKeyEvent* actionTouche) {
                 totalMoves++;
             }
             else {
-                index = IA().performMovealphabeta(*tableau, 2, dep, info);
+                //index = IA().performMovealphabeta(*tableau, 2, dep, info);
                 positionY = tableau->deplacer(index, 2);
             }
 
@@ -172,4 +172,4 @@ void Token::actionClavier(QKeyEvent* actionTouche) {
         }
 
     }
-}
+}*/

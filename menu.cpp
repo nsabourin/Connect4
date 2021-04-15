@@ -2,59 +2,94 @@
 
 //Constructeur de la fenêtre principale
 Menu::Menu(QWidget* parent) : QMainWindow(parent)
-{
-	setMinimumSize(800, 600);
-	setWindowTitle("ChugFour 1.0");
-	setAutoFillBackground(true);
-	setBackGround();
-
-	
+{	
+	initialisationFenetre();
 }
 
-void Menu::setBackGround()
+void Menu::setBackGroundMenu1()
 {
 	QPalette palette;
-	QPixmap pixMap("path.jpg");
+	QPixmap pixMap("backscreen.png");
 	pixMap = pixMap.scaled(size(), Qt::IgnoreAspectRatio);
 	palette.setBrush(backgroundRole(), QBrush(pixMap));
 	this->setPalette(palette);
 }
-
-//Constructeur du menu principal
-menuPrincipal::menuPrincipal(QWidget* parent) : QWidget(parent)
+void Menu::setBackGroundTableau()
 {
-	setupMenu();
+	this->setStyleSheet("background-color: blue;");
 }
-//Fonction permettant d'ajouter tous les widgets nécessaires au bon fonctionnement du menu principal
-void menuPrincipal::setupMenu()
+void Menu::initialisationFenetre()
 {
-	//Construction des 3 boutons
-	jouerAmi = new QPushButton("1 vs 1");
-	jouerAI = new QPushButton("1 vs AI");
-	quitter = new QPushButton("Quitter");
-	//Création des deux contenants pour les widgets
-	mainBox = new QVBoxLayout(this);
-	buttonBox = new QHBoxLayout();
-	//Ajout des widgets existants dans leur contenant respectif
-	buttonBox->addWidget(jouerAmi);
-	buttonBox->addWidget(jouerAI);
-	buttonBox->addWidget(quitter);
-	mainBox->addLayout(buttonBox);
+	//Mise en page de la fenêtre principale
+	setMinimumSize(800, 600);
+	setWindowTitle("ChugFour 1.0");
+	setAutoFillBackground(true);
+	setBackGroundMenu1();
 
-	//connect(jouerAI, &QPushButton);
-	//connect(jouerAmi, &QPushButton);
-	connect(quitter, &QPushButton::clicked, this, &menuPrincipal::clicQuitter);
+	//Initialisation des widgets pour le jeu
+	mainWidget = new QWidget();
+	tableau = new Tableau(this);
+	menuOrdi = new menuAI(this);
+
+	//Initialisation des boutons pour le menu principal
+	jouerAmi = new QPushButton("1 vs 1", this);
+	jouerAI = new QPushButton("1 vs AI", this);
+	quitter = new QPushButton("Quitter", this);
+
+	jouerAmi->setFixedWidth(200);
+	jouerAI->setFixedWidth(200);
+	quitter->setFixedWidth(200);
+	jouerAmi->setFixedHeight(50);
+	jouerAI->setFixedHeight(50);
+	quitter->setFixedHeight(50);
+
+	buttonBox = new QGridLayout(this);
+	//Ajout des boutons dans un QGridLayout pour les avoir en ligne droite
+	buttonBox->addWidget(jouerAmi, 0, 0);
+	buttonBox->addWidget(jouerAI, 1, 0);
+	buttonBox->addWidget(quitter, 2, 0);
+	mainWidget->setLayout(buttonBox);
+
+	//Connexion des différents boutons avec une action
+	connect(jouerAmi, SIGNAL(clicked()), this, SLOT(clicAmi()));
+	connect(jouerAI, SIGNAL(clicked()), this, SLOT(clicAI()));
+	connect(quitter, SIGNAL(clicked()), this, SLOT(clicQuitter()));
+
+	//Affichage du menu principal dans la mainWindow
+	this->setCentralWidget(mainWidget);
 }
-
-void menuPrincipal::clicAmi()
+void Menu::keyPressEvent(QKeyEvent* event)
 {
+	if (event->key() == Qt::Key_Left && tableau->getCurseur() > 0)
+	{
+		int temp = tableau->getCurseur();
+		temp--;
+		tableau->setCurseur(temp);
+	}
+	if (event->key() == Qt::Key_Right && tableau->getCurseur() < 6)
+	{
+		int temp = tableau->getCurseur();
+		temp++;
+		tableau->setCurseur(temp);
+	}
+	tableau->moveCurseur();
+}
+void Menu::clicAmi()
+{
+	//On change la couleur de l'arrière plan pour mieux voir les cases.
+	setBackGroundTableau();
+	//Affichage du jeu dans la mainWindow
+	this->setCentralWidget(tableau);
 	
-}
-void menuPrincipal::clicAI()
-{
 
 }
-void menuPrincipal::clicQuitter()
+void Menu::clicAI()
+{
+	menuOrdi->show();
+	this->setCentralWidget(menuOrdi);
+}
+void Menu::clicQuitter()
 {
 	exit(EXIT_SUCCESS);
 }
+

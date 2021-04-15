@@ -15,6 +15,7 @@
 #include "menu.h"
 #include "infos.h"
 #include "ia.h"
+#include "gameplay.h"
 
 class Token :public QGraphicsPixmapItem {
 public:
@@ -35,7 +36,7 @@ protected:
 	int totalMoves;
 	bool passe;
 	Tableau* tableau;
-	IA minimax;
+	//IA minimax;
 	QGraphicsView* view;
 	Menu* menu;
 	Infos* info;

@@ -24,12 +24,7 @@ Alexis Dupont, Maxime Grenier-Castillo, Nicolas Sabourin, Michael Kabraelian
 
 int main(int argc, char* argv[]) {
 	QApplication appli(argc, argv);
-
-	//Implementer menu.h avant
 	Menu* mainMenu = new Menu;
-	menuPrincipal* menu1 = new menuPrincipal;
-	mainMenu->setCentralWidget(menu1);
 	mainMenu->show();
-
 	return appli.exec();
 }

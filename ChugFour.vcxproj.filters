@@ -68,39 +68,57 @@
     <ClInclude Include="deplacement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="gameplay.h">
+    <CustomBuild Include="gameplay.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <ClInclude Include="ia.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="infos.h">
+    <CustomBuild Include="infos.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <ClInclude Include="jouerToken.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="menu.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="menudeux.h">
+    <CustomBuild Include="menudeux.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <ClInclude Include="menutrois.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="tableau.h">
+    <CustomBuild Include="tableau.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <ClInclude Include="token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="debug\moc_gameplay.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_gameplay.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_infos.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_infos.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
     <ClCompile Include="debug\moc_menu.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="release\moc_menu.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_menudeux.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_menudeux.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <CustomBuild Include="debug\moc_predefs.h.cbt">
@@ -109,5 +127,11 @@
     <CustomBuild Include="release\moc_predefs.h.cbt">
       <Filter>Generated Files</Filter>
     </CustomBuild>
+    <ClCompile Include="debug\moc_tableau.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_tableau.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
