@@ -2,15 +2,11 @@
 #define TABLEAU_H
 
 #include <vector>
-#include "deplacement.h"
 #include <QMainWindow>
 #include <QGridLayout>
-#include <QGraphicsScene>
-#include <QGraphicsView>
 #include <QImage>
 #include <QLabel>
 #include <QDebug>
-#include <QKeyEvent>
 
 class Tableau : public QWidget {
 
@@ -20,19 +16,16 @@ public:
 
     //Constr et destr
     explicit Tableau(QWidget* parent = nullptr);
-    Tableau();
     ~Tableau();
 
 
     int verifVictoire(); //Valeurs de retour( 1 : j1, 2 : j2, 0 : Partie nulle)
-    int deplacer(int, int);
     void affichageMegaUltime();
     int getCurseur();
     void setCurseur(int);
     void moveCurseur();
-    void enleverDeplacement(int i, int j) {
-        tableau[i][j] = 0;
-    }
+    void jouerTour(int colonne);
+    bool verificationMegaUltime(int d, int r,int player);
 
     //Méthode pour vérifier la valeur dans une case du tableau
     int getCase(int i, int j) {
@@ -51,6 +44,8 @@ private:
     int rowCount = 7;
     int columnCount = 7;
     int curseur = 3;
+    int turn = 0;
+    int tokens = 0;
     QGridLayout* grille;
     QImage* token1;
     QImage* token2;

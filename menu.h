@@ -3,11 +3,10 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-#include <QVBoxLayout>
+#include <QGridLayout>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QStackedWidget>
-#include<QStackedLayout>
+#include <QKeyEvent>
 #include "tableau.h"
 #include "menudeux.h"
 
@@ -22,16 +21,16 @@ private:
 	QWidget* mainWidget;
 	QGraphicsScene* backGround;
 	Tableau* tableau;
-	void setBackGroundMenu1();
-	void setBackGroundTableau();
-	void initialisationFenetre();
-	void keyPressEvent(QKeyEvent* event);
-	Tableau* tab;
 	menuAI* menuOrdi;
 	QPushButton* jouerAmi;
 	QPushButton* jouerAI;
 	QPushButton* quitter;
 	QGridLayout* buttonBox;
+	void setBackGroundMenu1();
+	void setBackGroundTableau();
+	void initialisationFenetre();
+	void keyPressEvent(QKeyEvent* event);
+
 public slots:
 	void clicAmi();
 	void clicAI();

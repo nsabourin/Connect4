@@ -1,7 +1,7 @@
 #include "menu.h"
 
 //Constructeur de la fenêtre principale
-Menu::Menu(QWidget* parent) : QMainWindow(parent)
+Menu::Menu(QWidget* parent)
 {	
 	initialisationFenetre();
 }
@@ -22,19 +22,19 @@ void Menu::initialisationFenetre()
 {
 	//Mise en page de la fenêtre principale
 	setMinimumSize(800, 600);
-	setWindowTitle("ChugFour 1.0");
+	setWindowTitle("ConnectSwince 1.0");
 	setAutoFillBackground(true);
 	setBackGroundMenu1();
 
 	//Initialisation des widgets pour le jeu
-	mainWidget = new QWidget();
+	mainWidget = new QWidget(this);
 	tableau = new Tableau(this);
 	menuOrdi = new menuAI(this);
 
 	//Initialisation des boutons pour le menu principal
 	jouerAmi = new QPushButton("1 vs 1", this);
 	jouerAI = new QPushButton("1 vs AI", this);
-	quitter = new QPushButton("Quitter", this);
+	quitter = new QPushButton("Quit", this);
 
 	jouerAmi->setFixedWidth(200);
 	jouerAI->setFixedWidth(200);
@@ -73,6 +73,12 @@ void Menu::keyPressEvent(QKeyEvent* event)
 		tableau->setCurseur(temp);
 	}
 	tableau->moveCurseur();
+
+	if (event->key() == Qt::Key_Space)
+	{
+		//On descend le bon jeton à la bonne place
+		tableau->jouerTour(tableau->getCurseur());
+	}
 }
 void Menu::clicAmi()
 {

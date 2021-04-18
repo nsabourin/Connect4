@@ -24,7 +24,7 @@ Alexis Dupont, Maxime Grenier-Castillo, Nicolas Sabourin, Michael Kabraelian
 
 int main(int argc, char* argv[]) {
 	QApplication appli(argc, argv);
-	Menu* mainMenu = new Menu;
-	mainMenu->show();
+	Menu mainMenu;
+	mainMenu.show();
 	return appli.exec();
 }

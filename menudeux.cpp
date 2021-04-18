@@ -2,12 +2,11 @@
 
 menuAI::menuAI(QWidget* parent) : QWidget(parent)
 {
-	tab = new Tableau(this);
 	menu2Box = new QGridLayout(this);
 	easy = new QPushButton("EASY",this);
 	medium = new QPushButton("MEDIUM",this);
 	hard = new QPushButton("HARD",this);
-	back = new QPushButton("Quitter",this);
+	back = new QPushButton("QUIT",this);
 
 	easy->setFixedWidth(200);
 	medium->setFixedWidth(200);
@@ -25,7 +24,7 @@ menuAI::menuAI(QWidget* parent) : QWidget(parent)
 	menu2Box->addWidget(back);
 	this->setLayout(menu2Box);
 	this->hide();
-	connect(back, SIGNAL(clicked()),this,SLOT(quitter()));
+	connect(back, SIGNAL(clicked()),this,SLOT(quit()));
 }
 void menuAI::clicEasy()
 {
@@ -41,7 +40,7 @@ void menuAI::clicHard()
 
 }
 
-void menuAI::quitter()
+void menuAI::quit()
 {
 	exit(EXIT_SUCCESS);
 }
