@@ -65,19 +65,24 @@ void Menu::keyPressEvent(QKeyEvent* event)
 		int temp = tableau->getCurseur();
 		temp--;
 		tableau->setCurseur(temp);
+		tableau->writeCurseur();
 	}
-	if (event->key() == Qt::Key_Right && tableau->getCurseur() < 6)
+	else if (event->key() == Qt::Key_Right && tableau->getCurseur() < 6)
 	{
 		int temp = tableau->getCurseur();
 		temp++;
 		tableau->setCurseur(temp);
+		tableau->writeCurseur();
 	}
-	tableau->moveCurseur();
-
-	if (event->key() == Qt::Key_Space)
+	else if (event->key() == Qt::Key_Space)
 	{
+		mciSendString(L"play canOpen.mp3", NULL, 0, NULL);
 		//On descend le bon jeton à la bonne place
 		tableau->jouerTour(tableau->getCurseur());
+	}
+	else if (event->key() == Qt::Key_Q)
+	{
+		exit(EXIT_SUCCESS);
 	}
 }
 void Menu::clicAmi()

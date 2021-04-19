@@ -28,4 +28,5 @@ SOURCES += \
 INCLUDEPATH += ../connect4
 LIB			+= ../connectFour/CommunicationFPGA.lib
 CONFIG += warn_on qt debug windows console
-QT += widgets
+QT += \widgets\
+	multimedia

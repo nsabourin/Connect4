@@ -9,6 +9,8 @@
 #include <QKeyEvent>
 #include "tableau.h"
 #include "menudeux.h"
+#include "windows.h"
+#pragma comment(lib, "Winmm.lib")
 
 class Menu : public QMainWindow
 {
@@ -26,6 +28,7 @@ private:
 	QPushButton* jouerAI;
 	QPushButton* quitter;
 	QGridLayout* buttonBox;
+	
 	void setBackGroundMenu1();
 	void setBackGroundTableau();
 	void initialisationFenetre();

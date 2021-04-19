@@ -41,7 +41,7 @@ void Tableau::affichageMegaUltime()
                 temp->convertFromImage(*vide);
             }
             QLabel* t = new QLabel();
-            t->setPixmap(*temp);
+            t->setPixmap(*temp); 
             grille->addWidget(t, i+1, j, 1, 1);
         }
     }
@@ -77,17 +77,32 @@ void Tableau::initTableau()
 
 void Tableau::createTableau()
 {
-    vecCase = new QVector<QVector<QLabel*>>(rowCount);
+    test = new QWidget();
     grille = new QGridLayout(this);
     token1 = new QImage(100,100,QImage::Format::Format_RGB32);
     token2 = new QImage(100, 100, QImage::Format::Format_RGB32);
     vide = new QImage(100, 100, QImage::Format::Format_RGB32);
+    toke1 = new QPixmap();
+    toke2 = new QPixmap();
+    videe = new QPixmap();
+    tok1 = new QLabel();
+    tok2 = new QLabel();
+    videee = new QLabel();
     token1->load("twiJaune.png");
     token2->load("twiRouge.png");
-    vide->load("vide.png");
+    vide->load("vide2.png");
     *token2 = token2->scaled(100, 100, Qt::KeepAspectRatio);
     *token1 = token1->scaled(100, 100, Qt::KeepAspectRatio);
     *vide = vide->scaled(100, 100, Qt::KeepAspectRatio);
+
+    toke1->convertFromImage(*token1);
+    toke2->convertFromImage(*token2);
+    videe->convertFromImage(*vide);
+
+    tok1->setPixmap(*toke1);
+    tok2->setPixmap(*toke2);
+    videee->setPixmap(*videe);
+
 
     for (int i = 0;i < rowCount;i++)
     {
@@ -116,12 +131,13 @@ void Tableau::createTableau()
     }
     setLayout(grille);
 }
-void Tableau::moveCurseur()
+void Tableau::writeCurseur()
 {
     for (int i = 0;i < rowCount;i++)
     {
         QPixmap* temp = new QPixmap();
         QLabel* t = new QLabel();
+        
         if (i == curseur)
         {
             if (turn % 2)
@@ -136,7 +152,6 @@ void Tableau::moveCurseur()
                 t->setPixmap(*temp);
                 grille->addWidget(t, 0, i, 1, 1);
             }
-
         }
         else
         {
@@ -167,8 +182,8 @@ void Tableau::jouerTour(int colonne)
                 turn++;
                 tokens++;
                 affichageMegaUltime();
-                moveCurseur();
-                //testeur = verificationMegaUltime(colonne, c,joueur_turn); ** à faire fonctionner**
+                writeCurseur();
+                testeur = verificationMegaUltime(colonne, c,joueur_turn); //** à faire fonctionner**
                 if (testeur == true)
                 {
                     qDebug() << "victoire";
@@ -185,8 +200,8 @@ void Tableau::jouerTour(int colonne)
         turn++;
         tokens++;
         affichageMegaUltime();
-        moveCurseur();
-        //testeur = verificationMegaUltime(colonne, c,joueur_turn); **à faire fonctionner**
+        writeCurseur();
+        testeur = verificationMegaUltime(colonne, c,joueur_turn);// **à faire fonctionner**
         if (testeur == true)
         {
             qDebug() << "victoire";
@@ -196,6 +211,116 @@ void Tableau::jouerTour(int colonne)
             qDebug() << "try harder";
         }
     }
+}
+int Tableau::detectePhoneme(CommunicationFPGA port)
+{
+    // numeros de registres correspondants pour les echanges FPGA <-> PC  ...
+    unsigned const int nreg_lect_stat_btn = 0;  // fpga -> PC  Statut et BTN lus FPGA -> PC
+    unsigned const int nreg_lect_swt = 1;       // fpga -> PC  SWT lus FPGA -> PC
+    unsigned const int nreg_lect_cmpt_t = 2;    // fpga -> PC  compteur temps FPGA -> PC 
+    unsigned const int nreg_lect_can0 = 3;      // fpga -> PC  canal 0 lus FPGA -> PC
+    unsigned const int nreg_lect_can1 = 4;      // fpga -> PC  canal 1 lus FPGA -> PC
+    unsigned const int nreg_lect_can2 = 5;      // fpga -> PC  canal 2 lus FPGA -> PC
+    unsigned const int nreg_lect_can3 = 6;      // fpga -> PC  canal 3 lus FPGA -> PC
+    unsigned const int nreg_ecri_aff7sg0 = 7;   // PC -> fpga (octet 0  aff.7 seg.)
+    unsigned const int nreg_ecri_aff7sg1 = 8;   // PC -> fpga (octet 1  aff.7 seg.)
+    unsigned const int nreg_ecri_aff7dot = 9;   // PC -> fpga (donnees dot-points)
+    unsigned const int nreg_ecri_led = 10;      // PC -> fpga (donnees leds)
+    bool sortie = false;
+    int valeur;
+    int detect[4] = { 0 };
+    int valBouton = 0;
+    int valtest[4];
+    int valeursDetection[12][2] = {
+    {200,255},{150,225},{0,110},{32,112},{80,208},{25,125},{0,35},{0,45},
+    {80,130},{0,30},{5,40} };
+    for (int i = 0; i < 4; i++) {
+        while (sortie != true) {
+            port.lireRegistre(nreg_lect_can0 + i, valtest[i]);
+            port.ecrireRegistre(nreg_ecri_aff7sg0, valtest[i]);
+            port.lireRegistre(nreg_lect_stat_btn, valBouton);
+            if (valBouton == 1) {
+                sortie = true;
+                std::cout << "Entre dans le if" << std::endl;
+            }
+        }
+        while (valBouton == 1) {
+            port.lireRegistre(nreg_lect_stat_btn, valBouton);
+            cout << valtest[i] << ",    ";
+        }
+
+
+
+        valBouton = 0;
+        sortie = false;
+    }
+    if (valtest[0] >= valeursDetection[0][0] && valtest[0] <= valeursDetection[0][1])
+    {
+        detect[0]++;
+
+    }
+    if (valtest[0] >= valeursDetection[4][0] && valtest[0] <= valeursDetection[4][1])
+    {
+        detect[1]++;
+
+    }
+    if (valtest[0] >= valeursDetection[8][0] && valtest[0] <= valeursDetection[8][1])
+    {
+        detect[2]++;
+
+    }
+
+    if (valtest[1] >= valeursDetection[1][0] && valtest[1] <= valeursDetection[1][1])
+    {
+        detect[0]++;
+    }
+    if (valtest[1] >= valeursDetection[5][0] && valtest[1] <= valeursDetection[5][1])
+    {
+        detect[1]++;
+
+    }
+    if (valtest[1] >= valeursDetection[9][0] && valtest[1] <= valeursDetection[9][1])
+    {
+        detect[2]++;
+
+    }
+    if (valtest[2] >= valeursDetection[2][0] && valtest[2] <= valeursDetection[2][1])
+    {
+        detect[0]++;
+    }
+    if (valtest[2] >= valeursDetection[6][0] && valtest[2] <= valeursDetection[6][1])
+    {
+        detect[1]++;
+
+    }
+    if (valtest[2] >= valeursDetection[10][0] && valtest[2] <= valeursDetection[10][1])
+    {
+        detect[2]++;
+
+    }
+    if (valtest[3] >= valeursDetection[3][0] && valtest[3] <= valeursDetection[3][1])
+    {
+        detect[0]++;
+    }
+    if (valtest[3] >= valeursDetection[7][0] && valtest[3] <= valeursDetection[7][1])
+    {
+        detect[1]++;
+
+    }
+    if (valtest[3] >= valeursDetection[11][0] && valtest[3] <= valeursDetection[11][1])
+    {
+        detect[2]++;
+
+    }
+    for (int i = 0;i < 4;i++)
+    {
+        if (detect[i] == 4)
+        {
+            return i;
+        }
+    }
+
+    return -1;
 }
 /*		  **verificationMegaUltime**
 Entree	: n0 de rangee (entier) & position de drop (entier)

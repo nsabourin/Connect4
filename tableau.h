@@ -7,7 +7,8 @@
 #include <QImage>
 #include <QLabel>
 #include <QDebug>
-
+#include "CommunicationFPGA.h"
+#include <iostream>
 class Tableau : public QWidget {
 
     Q_OBJECT
@@ -23,9 +24,10 @@ public:
     void affichageMegaUltime();
     int getCurseur();
     void setCurseur(int);
-    void moveCurseur();
+    void writeCurseur();
     void jouerTour(int colonne);
     bool verificationMegaUltime(int d, int r,int player);
+    int detectePhoneme(CommunicationFPGA port);
 
     //Méthode pour vérifier la valeur dans une case du tableau
     int getCase(int i, int j) {
@@ -37,6 +39,7 @@ public:
     }
 
 private:
+    CommunicationFPGA port;
     void createTableau();
     void initTableau();
     int** tableau;
@@ -50,7 +53,14 @@ private:
     QImage* token1;
     QImage* token2;
     QImage* vide;
-    QVector<QVector<QLabel*>>* vecCase;
+    QPixmap* toke1;
+    QPixmap* toke2;
+    QPixmap* videe;
+    QLabel* tok1;
+    QLabel* tok2;
+    QLabel* videee;
+    QLabel* transLabel;
+    QLayoutItem* testeur;
     
 };
 #endif // BOARD_H
