@@ -7,8 +7,12 @@
 #include <QImage>
 #include <QLabel>
 #include <QDebug>
+#include <QTimer>
 #include "CommunicationFPGA.h"
 #include <iostream>
+#include <chrono>
+#include <QMessageBox>
+#include <QMovie>
 class Tableau : public QWidget {
 
     Q_OBJECT
@@ -39,7 +43,7 @@ public:
     }
 
 private:
-    CommunicationFPGA port;
+    
     void createTableau();
     void initTableau();
     int** tableau;
@@ -49,6 +53,7 @@ private:
     int curseur = 3;
     int turn = 0;
     int tokens = 0;
+    QMovie* movie;
     QGridLayout* grille;
     QImage* token1;
     QImage* token2;
@@ -60,7 +65,8 @@ private:
     QLabel* tok2;
     QLabel* videee;
     QLabel* transLabel;
-    QLayoutItem* testeur;
+    QLabel* icon_label;
+    QWidget* test;
     
 };
 #endif // BOARD_H

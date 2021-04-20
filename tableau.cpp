@@ -5,6 +5,18 @@
 #define JOUEUR1 1
 #define JOUEUR2 2
 
+// numeros de registres correspondants pour les echanges FPGA <-> PC  ...
+unsigned const int nreg_lect_stat_btn = 0;  // fpga -> PC  Statut et BTN lus FPGA -> PC
+unsigned const int nreg_lect_swt = 1;       // fpga -> PC  SWT lus FPGA -> PC
+unsigned const int nreg_lect_cmpt_t = 2;    // fpga -> PC  compteur temps FPGA -> PC 
+unsigned const int nreg_lect_can0 = 3;      // fpga -> PC  canal 0 lus FPGA -> PC
+unsigned const int nreg_lect_can1 = 4;      // fpga -> PC  canal 1 lus FPGA -> PC
+unsigned const int nreg_lect_can2 = 5;      // fpga -> PC  canal 2 lus FPGA -> PC
+unsigned const int nreg_lect_can3 = 6;      // fpga -> PC  canal 3 lus FPGA -> PC
+unsigned const int nreg_ecri_aff7sg0 = 7;   // PC -> fpga (octet 0  aff.7 seg.)
+unsigned const int nreg_ecri_aff7sg1 = 8;   // PC -> fpga (octet 1  aff.7 seg.)
+unsigned const int nreg_ecri_aff7dot = 9;   // PC -> fpga (donnees dot-points)
+unsigned const int nreg_ecri_led = 10;      // PC -> fpga (donnees leds)
 //Constructeur du menu principal
 Tableau::Tableau(QWidget* parent) : QWidget(parent)
 {
@@ -186,11 +198,11 @@ void Tableau::jouerTour(int colonne)
                 testeur = verificationMegaUltime(colonne, c,joueur_turn); //** à faire fonctionner**
                 if (testeur == true)
                 {
+                    QMessageBox* victory = new QMessageBox();
+                    victory->setIconPixmap(QPixmap("gifTwistea.gif").scaledToWidth(100));
+                    movie = new QMovie("gifTwstea.gif");
+                    victory->show();
                     qDebug() << "victoire";
-                }
-                else
-                {
-                    qDebug() << "try harder";
                 }
                 break;
             }
@@ -204,56 +216,50 @@ void Tableau::jouerTour(int colonne)
         testeur = verificationMegaUltime(colonne, c,joueur_turn);// **à faire fonctionner**
         if (testeur == true)
         {
-            qDebug() << "victoire";
-        }
-        else
-        {
-            qDebug() << "try harder";
+            QMessageBox* box = new QMessageBox();
+            QGridLayout* test = new QGridLayout(box);
+            QLabel* victory = new QLabel();
+            QString num;
+            num.setNum(joueur_turn);
+            victory->setText("VICTOIRE DU JOUEUR" + num);
+            icon_label = new QLabel(box);
+            movie = new QMovie("gifTwistea.gif");
+
+            box->setStyleSheet("QLabel{min-width: 358; min-height: 640;}");
+           
+            test->addWidget(icon_label,0,0);
+            box->setLayout(test);
+            
+            //movie->setScaledSize(movie->scaledSize());
+            icon_label->setMovie(movie);
+            movie->start();
+            mciSendString(L"play finalSound.mp3", NULL, 0, NULL);
+            box->show();
         }
     }
 }
 int Tableau::detectePhoneme(CommunicationFPGA port)
 {
-    // numeros de registres correspondants pour les echanges FPGA <-> PC  ...
-    unsigned const int nreg_lect_stat_btn = 0;  // fpga -> PC  Statut et BTN lus FPGA -> PC
-    unsigned const int nreg_lect_swt = 1;       // fpga -> PC  SWT lus FPGA -> PC
-    unsigned const int nreg_lect_cmpt_t = 2;    // fpga -> PC  compteur temps FPGA -> PC 
-    unsigned const int nreg_lect_can0 = 3;      // fpga -> PC  canal 0 lus FPGA -> PC
-    unsigned const int nreg_lect_can1 = 4;      // fpga -> PC  canal 1 lus FPGA -> PC
-    unsigned const int nreg_lect_can2 = 5;      // fpga -> PC  canal 2 lus FPGA -> PC
-    unsigned const int nreg_lect_can3 = 6;      // fpga -> PC  canal 3 lus FPGA -> PC
-    unsigned const int nreg_ecri_aff7sg0 = 7;   // PC -> fpga (octet 0  aff.7 seg.)
-    unsigned const int nreg_ecri_aff7sg1 = 8;   // PC -> fpga (octet 1  aff.7 seg.)
-    unsigned const int nreg_ecri_aff7dot = 9;   // PC -> fpga (donnees dot-points)
-    unsigned const int nreg_ecri_led = 10;      // PC -> fpga (donnees leds)
+
     bool sortie = false;
     int valeur;
     int detect[4] = { 0 };
     int valBouton = 0;
-    int valtest[4];
+    int valtest[4] = { 0 };
     int valeursDetection[12][2] = {
     {200,255},{150,225},{0,110},{32,112},{80,208},{25,125},{0,35},{0,45},
-    {80,130},{0,30},{5,40} };
-    for (int i = 0; i < 4; i++) {
-        while (sortie != true) {
-            port.lireRegistre(nreg_lect_can0 + i, valtest[i]);
-            port.ecrireRegistre(nreg_ecri_aff7sg0, valtest[i]);
-            port.lireRegistre(nreg_lect_stat_btn, valBouton);
-            if (valBouton == 1) {
-                sortie = true;
-                std::cout << "Entre dans le if" << std::endl;
-            }
-        }
-        while (valBouton == 1) {
-            port.lireRegistre(nreg_lect_stat_btn, valBouton);
-            cout << valtest[i] << ",    ";
-        }
+    {80,130},{0,30},{5,40},{0,30} };
 
+    /*do {
 
-
-        valBouton = 0;
-        sortie = false;
     }
+    }while(time<2)*/
+    for (int i = 0; i < 4; i++) 
+    {
+        port.lireRegistre(i, valtest[i]);
+        qDebug() << valtest[i];
+    }
+
     if (valtest[0] >= valeursDetection[0][0] && valtest[0] <= valeursDetection[0][1])
     {
         detect[0]++;
@@ -319,7 +325,6 @@ int Tableau::detectePhoneme(CommunicationFPGA port)
             return i;
         }
     }
-
     return -1;
 }
 /*		  **verificationMegaUltime**
@@ -337,7 +342,7 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     int horizontal = 1;
     int diag1 = 1;
     int diag2 = 1;
-    int i, j;
+    int i, j = 0;
 
     /********************Verification horizontale********************/
 
@@ -351,7 +356,7 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     }
 
     //Regarder a droite
-    for (j = d + 1;j <= columnCount; j++) {
+    for (j = d + 1;j <= columnCount-1; j++) {
         if (tableau[r][j] == joueur)
         {
             horizontal++;
@@ -390,21 +395,19 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     /********************Verification diagonale (1)********************/
 
     //Regarder au dessus a gauche 
-    for (i = r - 1, j = d - 1;i >= 0 && j < columnCount; diag1++) {
+    for (i = r - 1, j = d - 1;i >= 0 && j < columnCount-1; i--,j--) {
         if (tableau[i][j] == joueur)
         {
-            i--;
-            j--;
+            diag1++;
         }
 
     }
 
     //Regarder en bas a droite
-    for (i = r + 1, j = d + 1;i < rowCount-1 && j >= 0; diag1++) {
+    for (i = r + 1, j = d + 1;i < rowCount-1 && j >= 0;i++,j++) {
         if (tableau[i][j] == joueur)
         {
-            i++;
-            j++;
+            diag1++;
         }
 
     }
@@ -416,9 +419,10 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     /********************Verification diagonale (2)********************/
 
     //Regarder au dessus a droite
-    for (i = r - 1, j = d + 1;i >= 0 && i < columnCount; diag2++) {
+    for (i = r - 1, j = d + 1;i >= 0 && i < columnCount;i--,j++) {
         if (tableau[i][j] == joueur)
         {
+            diag2++;
             i--;
             j++;
         }
@@ -426,11 +430,10 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     }
 
     //Regarder au dessus a gauche
-    for (i = r + 1, j = d - 1;i < rowCount-1 && j >= 0; diag2++) {
+    for (i = r + 1, j = d - 1;i < rowCount-1 && j >= 0;i++,j--) {
         if (tableau[i][j] == joueur)
         {
-            i++;
-            j--;
+            diag2++;
         }
 
     }

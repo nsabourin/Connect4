@@ -26,5 +26,6 @@ int main(int argc, char* argv[]) {
 	QApplication appli(argc, argv);
 	Menu mainMenu;
 	mainMenu.show();
+	//mainMenu.timer->start(10);
 	return appli.exec();
 }

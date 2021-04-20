@@ -30,7 +30,7 @@ void Menu::initialisationFenetre()
 	mainWidget = new QWidget(this);
 	tableau = new Tableau(this);
 	menuOrdi = new menuAI(this);
-
+	timer = new QTimer(this);
 	//Initialisation des boutons pour le menu principal
 	jouerAmi = new QPushButton("1 vs 1", this);
 	jouerAI = new QPushButton("1 vs AI", this);
@@ -54,7 +54,7 @@ void Menu::initialisationFenetre()
 	connect(jouerAmi, SIGNAL(clicked()), this, SLOT(clicAmi()));
 	connect(jouerAI, SIGNAL(clicked()), this, SLOT(clicAI()));
 	connect(quitter, SIGNAL(clicked()), this, SLOT(clicQuitter()));
-
+	//connect(timer, SIGNAL(timeout()), this, SLOT(timeUp()));
 	//Affichage du menu principal dans la mainWindow
 	this->setCentralWidget(mainWidget);
 }
@@ -102,5 +102,40 @@ void Menu::clicAI()
 void Menu::clicQuitter()
 {
 	exit(EXIT_SUCCESS);
+}
+
+void Menu::timeUp()
+{
+	int autre;
+	
+	autre = tableau->detectePhoneme(port);
+
+	if (autre == 0)
+	{
+		qDebug() << "0";
+		//int temp = tableau->getCurseur();
+		//temp++;
+		//tableau->setCurseur(temp);
+		//tableau->writeCurseur();
+	}
+	else if (autre == 1)
+	{
+		qDebug() << "1";
+		//int temp = tableau->getCurseur();
+		//temp--;
+		//tableau->setCurseur(temp);
+		//tableau->writeCurseur();
+	}
+	else if (autre == 2)
+	{
+		qDebug() << "2";
+		//mciSendString(L"play canOpen.mp3", NULL, 0, NULL);
+		////On descend le bon jeton à la bonne place
+		//tableau->jouerTour(tableau->getCurseur());
+	}
+	else
+	{
+
+	}
 }
 

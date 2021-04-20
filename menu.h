@@ -10,6 +10,7 @@
 #include "tableau.h"
 #include "menudeux.h"
 #include "windows.h"
+#include "CommunicationFPGA.h"
 #pragma comment(lib, "Winmm.lib")
 
 class Menu : public QMainWindow
@@ -18,8 +19,9 @@ class Menu : public QMainWindow
 
 public:
 	explicit Menu(QWidget *parent = nullptr);
-
+	QTimer* timer;
 private:
+	CommunicationFPGA port;
 	QWidget* mainWidget;
 	QGraphicsScene* backGround;
 	Tableau* tableau;
@@ -38,6 +40,7 @@ public slots:
 	void clicAmi();
 	void clicAI();
 	void clicQuitter();
+	void timeUp();
 };
 
 #endif
