@@ -43,7 +43,7 @@ public:
     }
 
 private:
-    
+    void animeVictoire();
     void createTableau();
     void initTableau();
     int** tableau;

@@ -23,7 +23,6 @@ Tableau::Tableau(QWidget* parent) : QWidget(parent)
     initTableau();
 	createTableau();
 }
-
 //Destructeur pour libérer de la mémoire quand on crée un nouveau tableau
 Tableau::~Tableau()
 {
@@ -58,12 +57,10 @@ void Tableau::affichageMegaUltime()
         }
     }
 }
-
 int Tableau::getCurseur()
 {
     return curseur;
 }
-
 void Tableau::setCurseur(int a)
 {
     curseur = a;
@@ -86,7 +83,6 @@ void Tableau::initTableau()
         }
     }
 }
-
 void Tableau::createTableau()
 {
     test = new QWidget();
@@ -172,7 +168,6 @@ void Tableau::writeCurseur()
         }
     }
 }
-
 void Tableau::jouerTour(int colonne)
 {
     int joueur_turn;
@@ -195,14 +190,10 @@ void Tableau::jouerTour(int colonne)
                 tokens++;
                 affichageMegaUltime();
                 writeCurseur();
-                testeur = verificationMegaUltime(colonne, c,joueur_turn); //** à faire fonctionner**
+                testeur = verificationMegaUltime(colonne, c,joueur_turn);
                 if (testeur == true)
                 {
-                    QMessageBox* victory = new QMessageBox();
-                    victory->setIconPixmap(QPixmap("gifTwistea.gif").scaledToWidth(100));
-                    movie = new QMovie("gifTwstea.gif");
-                    victory->show();
-                    qDebug() << "victoire";
+                    animeVictoire();
                 }
                 break;
             }
@@ -213,31 +204,14 @@ void Tableau::jouerTour(int colonne)
         tokens++;
         affichageMegaUltime();
         writeCurseur();
-        testeur = verificationMegaUltime(colonne, c,joueur_turn);// **à faire fonctionner**
+        testeur = verificationMegaUltime(colonne, c,joueur_turn);
         if (testeur == true)
         {
-            QMessageBox* box = new QMessageBox();
-            QGridLayout* test = new QGridLayout(box);
-            QLabel* victory = new QLabel();
-            QString num;
-            num.setNum(joueur_turn);
-            victory->setText("VICTOIRE DU JOUEUR" + num);
-            icon_label = new QLabel(box);
-            movie = new QMovie("gifTwistea.gif");
-
-            box->setStyleSheet("QLabel{min-width: 358; min-height: 640;}");
-           
-            test->addWidget(icon_label,0,0);
-            box->setLayout(test);
-            
-            //movie->setScaledSize(movie->scaledSize());
-            icon_label->setMovie(movie);
-            movie->start();
-            mciSendString(L"play finalSound.mp3", NULL, 0, NULL);
-            box->show();
+            animeVictoire();
         }
     }
 }
+//Encore à vérifier
 int Tableau::detectePhoneme(CommunicationFPGA port)
 {
 
@@ -442,4 +416,18 @@ bool Tableau::verificationMegaUltime(int d, int r,int player)
     if (diag2 >= 4) { return true; }
     return false;
 }
-
+//Fonction permettant de visualiser la victoire avec une animation digne de ce nom
+void Tableau::animeVictoire()
+{
+    QMessageBox* box = new QMessageBox();
+    QGridLayout* test = new QGridLayout(box);
+    icon_label = new QLabel(box);
+    movie = new QMovie("gifTwistea.gif");
+    box->setStyleSheet("QLabel{min-width: 358; min-height: 640;}");
+    test->addWidget(icon_label, 0, 0);
+    box->setLayout(test);
+    icon_label->setMovie(movie);
+    movie->start();
+    mciSendString(L"play finalSound.mp3", NULL, 0, NULL);
+    box->show();
+}
