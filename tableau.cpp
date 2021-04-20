@@ -214,7 +214,11 @@ void Tableau::jouerTour(int colonne)
 //Encore à vérifier
 int Tableau::detectePhoneme(CommunicationFPGA port)
 {
-
+    if (!port.estOk())
+    {
+        cout << port.messageErreur() << endl;
+        return -1;
+    }
     bool sortie = false;
     int valeur;
     int detect[4] = { 0 };
@@ -224,10 +228,6 @@ int Tableau::detectePhoneme(CommunicationFPGA port)
     {200,255},{150,225},{0,110},{32,112},{80,208},{25,125},{0,35},{0,45},
     {80,130},{0,30},{5,40},{0,30} };
 
-    /*do {
-
-    }
-    }while(time<2)*/
     for (int i = 0; i < 4; i++) 
     {
         port.lireRegistre(i, valtest[i]);
@@ -299,6 +299,7 @@ int Tableau::detectePhoneme(CommunicationFPGA port)
             return i;
         }
     }
+    Sleep(10);
     return -1;
 }
 /*		  **verificationMegaUltime**
@@ -428,6 +429,5 @@ void Tableau::animeVictoire()
     box->setLayout(test);
     icon_label->setMovie(movie);
     movie->start();
-    mciSendString(L"play finalSound.mp3", NULL, 0, NULL);
     box->show();
 }

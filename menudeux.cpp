@@ -26,9 +26,17 @@ menuAI::menuAI(QWidget* parent) : QWidget(parent)
 	this->hide();
 	connect(back, SIGNAL(clicked()),this,SLOT(quit()));
 }
-void menuAI::clicEasy()
+void menuAI::keyPressEvent(QKeyEvent* event)
 {
 
+	if (event->key() == Qt::Key_Q)
+	{
+		exit(EXIT_SUCCESS);
+	}
+}
+void menuAI::clicEasy()
+{
+	
 }
 void menuAI::clicMedium()
 {
@@ -44,3 +52,4 @@ void menuAI::quit()
 {
 	exit(EXIT_SUCCESS);
 }
+

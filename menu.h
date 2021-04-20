@@ -29,8 +29,11 @@ private:
 	QPushButton* jouerAmi;
 	QPushButton* jouerAI;
 	QPushButton* quitter;
+	QPushButton* informations;
 	QGridLayout* buttonBox;
-	
+	QMessageBox* msgBox;
+	QLabel* infos;
+	QGridLayout* grid;
 	void setBackGroundMenu1();
 	void setBackGroundTableau();
 	void initialisationFenetre();
@@ -40,6 +43,7 @@ public slots:
 	void clicAmi();
 	void clicAI();
 	void clicQuitter();
+	void clicInfos();
 	void timeUp();
 };
 

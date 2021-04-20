@@ -35,28 +35,40 @@ void Menu::initialisationFenetre()
 	jouerAmi = new QPushButton("1 vs 1", this);
 	jouerAI = new QPushButton("1 vs AI", this);
 	quitter = new QPushButton("Quit", this);
+	informations = new QPushButton("How to play", this);
+	msgBox = new QMessageBox();
+	msgBox->setStyleSheet("QLabel{min-width: 358; min-height: 640;}");
+	grid = new QGridLayout();
+	infos = new QLabel("A : Tasser à gauche\nI : Tasser à droite\nON : Placer le jeton\nU : Quitter");
+
 
 	jouerAmi->setFixedWidth(200);
 	jouerAI->setFixedWidth(200);
 	quitter->setFixedWidth(200);
+	informations->setFixedWidth(200);
 	jouerAmi->setFixedHeight(50);
 	jouerAI->setFixedHeight(50);
 	quitter->setFixedHeight(50);
+	informations->setFixedHeight(50);
+	
 
 	buttonBox = new QGridLayout(this);
 	//Ajout des boutons dans un QGridLayout pour les avoir en ligne droite
 	buttonBox->addWidget(jouerAmi, 0, 0);
 	buttonBox->addWidget(jouerAI, 1, 0);
-	buttonBox->addWidget(quitter, 2, 0);
+	buttonBox->addWidget(quitter, 3, 0);
+	buttonBox->addWidget(informations, 2, 0);
 	mainWidget->setLayout(buttonBox);
 
 	//Connexion des différents boutons avec une action
 	connect(jouerAmi, SIGNAL(clicked()), this, SLOT(clicAmi()));
 	connect(jouerAI, SIGNAL(clicked()), this, SLOT(clicAI()));
 	connect(quitter, SIGNAL(clicked()), this, SLOT(clicQuitter()));
-	//connect(timer, SIGNAL(timeout()), this, SLOT(timeUp()));
+	connect(timer, SIGNAL(timeout()), this, SLOT(timeUp()));
+	connect(informations, SIGNAL(clicked()), this, SLOT(clicInfos()));
 	//Affichage du menu principal dans la mainWindow
 	this->setCentralWidget(mainWidget);
+	mciSendString(L"play finalSound.mp3", NULL, 0, NULL);
 }
 void Menu::keyPressEvent(QKeyEvent* event)
 {
@@ -103,6 +115,13 @@ void Menu::clicQuitter()
 {
 	exit(EXIT_SUCCESS);
 }
+void Menu::clicInfos()
+{
+	informations->setText("A : Tasser à gauche\nI : Tasser à droite\nON : Placer le jeton\nU : Quitter");
+	grid->addWidget(informations, 0, 0);
+	msgBox->setLayout(grid);
+	msgBox->show();
+}
 
 void Menu::timeUp()
 {
@@ -135,7 +154,7 @@ void Menu::timeUp()
 	}
 	else
 	{
-
+		qDebug() << autre;
 	}
 }
 
